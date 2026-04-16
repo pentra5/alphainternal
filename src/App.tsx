@@ -5,7 +5,7 @@ import { useAuthStore } from './stores/authStore';
 import { useUIStore } from './stores/uiStore';
 import { check } from '@tauri-apps/plugin-updater';
 import { ask } from '@tauri-apps/plugin-dialog';
-import { relaunch } from '@tauri-apps/plugin-process';
+import { relaunch, exit } from '@tauri-apps/plugin-process';
 import AppLayout from './components/layout/AppLayout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -68,12 +68,17 @@ export default function App() {
           try {
             const state = useAuthStore.getState();
             if (state.isAuthenticated) {
-              await state.logout(); // Posts to API /auth/logout, turning status to offline
+              // Try to post logout, but don't hang longer than 800ms
+              await Promise.race([
+                state.logout(),
+                new Promise(resolve => setTimeout(resolve, 800))
+              ]);
             }
           } catch (e) {
             console.error('Error logging out on exit', e);
           } finally {
-            await appWindow.destroy(); // Safely close
+            await appWindow.destroy(); // Safely close window
+            await exit(0); // Force kill background process
           }
         });
       } catch (e) {
