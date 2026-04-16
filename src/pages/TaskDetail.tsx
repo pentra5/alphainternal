@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 import { ArrowLeft, Trash2, Clock, Send, MessageSquare, Award, Tag } from 'lucide-react';
@@ -30,11 +30,27 @@ export default function TaskDetail() {
   const [sending, setSending] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editingContent, setEditingContent] = useState('');
+  const commentsEndRef = useRef<HTMLDivElement>(null);
+  const prevCommentCount = useRef(0);
 
   const isOwner = user?.role === 'owner';
   const isEditor = user?.role === 'editor';
 
-  useEffect(() => { loadTask(); }, [id]);
+  // Auto-scroll to bottom when new comments arrive
+  useEffect(() => {
+    const count = task?.comments?.length || 0;
+    if (count > prevCommentCount.current) {
+      commentsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+    prevCommentCount.current = count;
+  }, [task?.comments?.length]);
+
+  // Load task on mount + poll every 5s for real-time comments
+  useEffect(() => {
+    loadTask();
+    const interval = setInterval(loadTask, 5000);
+    return () => clearInterval(interval);
+  }, [id]);
 
   const loadTask = async () => {
     try {
@@ -248,6 +264,7 @@ export default function TaskDetail() {
                   <p className="text-sm font-medium">Belum ada komentar</p>
                 </div>
               )}
+              <div ref={commentsEndRef} />
             </div>
             
             <div className="p-4 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800">
