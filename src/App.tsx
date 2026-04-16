@@ -77,8 +77,9 @@ export default function App() {
           } catch (e) {
             console.error('Error logging out on exit', e);
           } finally {
-            await appWindow.destroy(); // Safely close window
-            await exit(0); // Force kill background process
+            if (unlisten) unlisten();
+            appWindow.close(); // Ask OS to close natively 
+            await exit(0); // Force kill background process completely
           }
         });
       } catch (e) {

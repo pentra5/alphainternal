@@ -9,6 +9,7 @@
     "notification:default",
     "dialog:default",
     "fs:default",
+    "process:default",
     "notification:allow-is-permission-granted",
     "notification:allow-request-permission",
     "notification:allow-notify"
