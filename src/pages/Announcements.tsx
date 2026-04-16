@@ -89,7 +89,7 @@ export default function Announcements() {
           announcements.map(a => (
             <div key={a.id} className="card overflow-hidden">
               <div className="p-6 md:p-8 bg-white dark:bg-slate-900 relative">
-                {isOwner && (
+                {user?.id === a.author_id && (
                   <button 
                     onClick={() => deleteAnnouncement(a.id)}
                     className="absolute top-6 right-6 p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
