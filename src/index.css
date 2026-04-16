@@ -1,0 +1,201 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #FAFAFA;
+    --surface: #FFFFFF;
+    --border: #E4E4E7;
+    --text: #18181B;
+    --text-muted: #71717A;
+    --text-light: #A1A1AA;
+    --primary: #D4AF37; /* Premium Gold */
+    --primary-hover: #C5A017;
+    --secondary: #A16207; /* Darker Gold / Bronze */
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --sidebar-width: 260px;
+    --topbar-height: 64px;
+  }
+
+  .dark {
+    --bg: #09090B; /* Deep Black */
+    --surface: #18181B; /* Dark Zinc */
+    --border: #27272A;
+    --text: #FAFAFA;
+    --text-muted: #A1A1AA;
+    --text-light: #71717A;
+    --primary: #D4AF37; /* Premium Gold */
+    --primary-hover: #F1C40F; /* Brighter gold on hover in dark mode */
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+  }
+}
+
+@layer components {
+  /* --- Card --- */
+  .card {
+    @apply bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 
+           shadow-sm transition-all duration-200;
+  }
+  .card:hover {
+    @apply shadow-md;
+  }
+
+  /* --- Button variants --- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg 
+           font-medium text-sm transition-all duration-200 cursor-pointer 
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-primary-500 hover:bg-primary-600 text-white shadow-sm hover:shadow;
+  }
+  .btn-secondary {
+    @apply btn bg-secondary-500 hover:bg-secondary-600 text-white shadow-sm hover:shadow;
+  }
+  .btn-outline {
+    @apply btn border border-slate-300 dark:border-slate-600 bg-transparent 
+           text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-slate-600 dark:text-slate-400 
+           hover:bg-slate-100 dark:hover:bg-slate-700;
+  }
+  .btn-danger {
+    @apply btn bg-danger-500 hover:bg-danger-600 text-white shadow-sm;
+  }
+  .btn-sm {
+    @apply text-xs px-3 py-1.5;
+  }
+  .btn-lg {
+    @apply text-base px-6 py-3;
+  }
+
+  /* --- Input --- */
+  .input {
+    @apply w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 
+           bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm
+           placeholder:text-slate-400 dark:placeholder:text-slate-500
+           focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500
+           transition-all duration-200;
+  }
+  .input-label {
+    @apply block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5;
+  }
+
+  /* --- Badge --- */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+  .badge-primary {
+    @apply badge bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400;
+  }
+  .badge-success {
+    @apply badge bg-success-50 text-green-700 dark:bg-green-900/30 dark:text-green-400;
+  }
+  .badge-warning {
+    @apply badge bg-warning-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400;
+  }
+  .badge-danger {
+    @apply badge bg-danger-50 text-red-700 dark:bg-red-900/30 dark:text-red-400;
+  }
+
+  /* --- Skeleton Loading --- */
+  .skeleton {
+    @apply animate-pulse bg-slate-200 dark:bg-slate-700 rounded-lg;
+  }
+
+  /* --- Modal overlay --- */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-50 
+           flex items-center justify-center animate-fade-in;
+  }
+  .modal-content {
+    @apply bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full mx-4 
+           max-h-[85vh] overflow-auto animate-scale-in 
+           border border-slate-200 dark:border-slate-700;
+  }
+
+  /* --- Avatar --- */
+  .avatar {
+    @apply rounded-full object-cover bg-primary-100 dark:bg-primary-900/30 
+           flex items-center justify-center font-semibold text-primary-600 dark:text-primary-400;
+  }
+
+  /* --- Priority badges --- */
+  .priority-urgent {
+    @apply badge bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400;
+  }
+  .priority-normal {
+    @apply badge bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400;
+  }
+  .priority-santai {
+    @apply badge bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400;
+  }
+
+  /* --- Status badges --- */
+  .status-todo {
+    @apply badge bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400;
+  }
+  .status-in-progress {
+    @apply badge bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400;
+  }
+  .status-review {
+    @apply badge bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400;
+  }
+  .status-done {
+    @apply badge bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
