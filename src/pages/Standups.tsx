@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import client from '../api/client';
 import { useAuthStore } from '../stores/authStore';
-import { Users, Edit3, Calendar } from 'lucide-react';
+import { Users, Edit3, Calendar, Trash2 } from 'lucide-react';
+import { confirm } from '@tauri-apps/plugin-dialog';
 
 export default function Standups() {
   const { user } = useAuthStore();
@@ -35,6 +36,17 @@ export default function Standups() {
       setStandups([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const deleteStandup = async (id: number) => {
+    const isConfirmed = await confirm('Hapus standup ini?', { title: 'Alpha', kind: 'warning' });
+    if (!isConfirmed) return;
+    try {
+      await client.delete(`/standups/${id}`);
+      loadStandups();
+    } catch (e: any) {
+      alert(e.response?.data?.detail || 'Gagal menghapus standup');
     }
   };
 
@@ -109,7 +121,7 @@ export default function Standups() {
           {standups.map(s => (
             <div key={s.id} className="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-t-4 border-t-primary-500">
               <div className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20 flex items-center justify-between">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-secondary-500 text-white font-bold flex items-center justify-center text-sm shadow-sm group-hover:scale-110 transition-transform">
                     {s.user_name?.charAt(0).toUpperCase()}
                   </div>
@@ -120,6 +132,15 @@ export default function Standups() {
                     </span>
                   </div>
                 </div>
+                {(user?.role === 'owner' || s.user_id === user?.id) && (
+                  <button
+                    onClick={() => deleteStandup(s.id)}
+                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors shrink-0"
+                    title="Hapus Standup"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                )}
               </div>
               <div className="p-6 space-y-5">
                 <div>
