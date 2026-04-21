@@ -3,6 +3,7 @@ import client from '../api/client';
 import { useAuthStore } from '../stores/authStore';
 import { Calendar as CalendarIcon, Plus, CheckCircle, XCircle } from 'lucide-react';
 import { confirm } from '@tauri-apps/plugin-dialog';
+import { utcToLocal } from '../utils/date';
 
 const MONTHS = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
@@ -265,7 +266,7 @@ export default function Schedules() {
                              </div>
                          </div>
                          <div className="text-xs text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900 p-2 rounded border border-slate-100 dark:border-slate-800">
-                             {new Date(pl.start_date).toLocaleDateString('id-ID')} s/d {new Date(pl.end_date).toLocaleDateString('id-ID')}<br/>
+                             {utcToLocal(pl.start_date).toLocaleDateString('id-ID')} s/d {utcToLocal(pl.end_date).toLocaleDateString('id-ID')}<br/>
                              <span className="font-medium mt-1 inline-block">Alasan:</span> {pl.reason}
                          </div>
                          {isOwner && (
@@ -306,7 +307,7 @@ export default function Schedules() {
                          </div>
                          <div className="text-xs text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900 p-2 rounded border border-slate-100 dark:border-slate-800">
                              <span className="font-bold">{ps.title}</span><br/>
-                             {new Date(ps.start_time).toLocaleDateString('id-ID')} - {new Date(ps.end_time).toLocaleDateString('id-ID')}
+                             {utcToLocal(ps.start_time).toLocaleDateString('id-ID')} - {utcToLocal(ps.end_time).toLocaleDateString('id-ID')}
                          </div>
                          {isOwner && (
                             <div className="flex gap-2">
@@ -466,7 +467,7 @@ export default function Schedules() {
                 {selectedEvent.type === 'schedule' && (
                   <>
                     <div className="text-sm text-slate-600 dark:text-slate-400">
-                      <strong>📅 Waktu:</strong> {new Date(selectedEvent.start_time).toLocaleString('id-ID')} - {new Date(selectedEvent.end_time).toLocaleString('id-ID')}
+                      <strong>📅 Waktu:</strong> {utcToLocal(selectedEvent.start_time).toLocaleString('id-ID')} - {utcToLocal(selectedEvent.end_time).toLocaleString('id-ID')}
                     </div>
                     {selectedEvent.description && (
                       <div className="text-sm text-slate-600 dark:text-slate-400">
@@ -499,7 +500,7 @@ export default function Schedules() {
                       <strong>🏖️ Tipe:</strong> {selectedEvent.leave_type}
                     </div>
                     <div className="text-sm text-slate-600 dark:text-slate-400">
-                      <strong>📅 Waktu:</strong> {new Date(selectedEvent.start_date).toLocaleDateString('id-ID')} - {new Date(selectedEvent.end_date).toLocaleDateString('id-ID')}
+                      <strong>📅 Waktu:</strong> {utcToLocal(selectedEvent.start_date).toLocaleDateString('id-ID')} - {utcToLocal(selectedEvent.end_date).toLocaleDateString('id-ID')}
                     </div>
                     <div className="text-sm text-slate-600 dark:text-slate-400">
                       <strong>💬 Alasan:</strong> {selectedEvent.reason}

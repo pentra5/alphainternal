@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import client from '../api/client';
 import { useAuthStore } from '../stores/authStore';
+import { utcToLocal } from '../utils/date';
 import { Trophy, Star, Medal, History } from 'lucide-react';
 
 export default function Points() {
@@ -70,7 +71,7 @@ export default function Points() {
                            <div key={h.id} className="p-4 sm:px-6 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
                                <div className="flex flex-col">
                                   <span className="text-sm font-semibold text-slate-900 dark:text-white capitalize">{h.reason.replace(/_/g, ' ')}</span>
-                                  <span className="text-xs text-slate-500">{new Date(h.created_at).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}</span>
+                                  <span className="text-xs text-slate-500">{utcToLocal(h.created_at).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}</span>
                                </div>
                                <div className={`px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 ${h.amount > 0 ? 'bg-success-50 text-success-600 dark:bg-success-900/20 dark:text-success-400' : 'bg-danger-50 text-danger-600 dark:bg-danger-900/20 dark:text-danger-400'}`}>
                                    {h.amount > 0 ? '+' : ''}{h.amount} <Star size={12} className="fill-current" />

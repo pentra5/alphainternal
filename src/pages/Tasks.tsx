@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
+import { utcToLocal } from '../utils/date';
 import {
   Plus, Search, LayoutGrid, List as ListIcon,
   Clock, ChevronRight, MessageSquare, User, X, FolderDot
@@ -262,7 +263,7 @@ export default function Tasks() {
                 <div className="flex items-center gap-4 text-xs font-medium text-slate-500 shrink-0">
                   {task.deadline && (
                     <span className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">
-                      <Clock size={13} /> {new Date(task.deadline).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                      <Clock size={13} /> {utcToLocal(task.deadline).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
                     </span>
                   )}
                   {task.assignees?.length > 0 && (
@@ -328,12 +329,11 @@ function TaskCard({ task, onStatusChange, onClick }: { task: any; onStatusChange
       <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700/50 flex items-center justify-between">
         <div className="flex flex-wrap items-center gap-3">
           {task.deadline && (
-            <span className="flex items-center gap-1.5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
-              <Clock size={12} className={task.is_overdue ? 'text-red-500' : ''} />
-              <span className={task.is_overdue ? 'text-red-600 dark:text-red-400 font-bold' : ''}>
-                {new Date(task.deadline).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+            <div className="text-right shrink-0">
+              <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${task.is_overdue ? 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'}`}>
+                {utcToLocal(task.deadline).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
               </span>
-            </span>
+            </div>
           )}
           
           <div className="flex items-center gap-2">

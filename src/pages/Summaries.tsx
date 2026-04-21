@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import client from '../api/client';
 import { FileText, Sparkles, Download, Calendar } from 'lucide-react';
+import { utcToLocal } from '../utils/date';
 // Removed unused import
 
 export default function Summaries() {
@@ -98,10 +99,10 @@ export default function Summaries() {
                      </div>
                      <div>
                         <h3 className="text-lg font-bold font-display text-slate-900 dark:text-white">
-                        Minggu: {new Date(s.week_start).toLocaleDateString('id-ID')}
+                        Minggu: {utcToLocal(s.week_start).toLocaleDateString('id-ID')}
                         </h3>
                         <p className="text-xs text-slate-500 font-medium">
-                           Mulai: {new Date(s.week_start).toLocaleDateString('id-ID')} &mdash; Selesai: {new Date(s.week_end).toLocaleDateString('id-ID')}
+                           Mulai: {utcToLocal(s.week_start).toLocaleDateString('id-ID')} &mdash; Selesai: {utcToLocal(s.week_end).toLocaleDateString('id-ID')}
                         </p>
                      </div>
                   </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
+import { utcToLocal } from '../utils/date';
 import { ArrowLeft, Trash2, Clock, Send, MessageSquare, Award, Tag } from 'lucide-react';
 import { confirm } from '@tauri-apps/plugin-dialog';
 import client from '../api/client';
@@ -185,7 +186,7 @@ export default function TaskDetail() {
                 {task.title}
               </h2>
               <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-                Dibuat oleh <span className="text-slate-700 dark:text-slate-300">{task.assigned_by_name}</span> &bull; {new Date(task.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                Dibuat oleh <span className="text-slate-700 dark:text-slate-300">{task.assigned_by_name}</span> &bull; {utcToLocal(task.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
               </p>
             </div>
 
@@ -225,7 +226,7 @@ export default function TaskDetail() {
                         <span className="text-sm font-bold text-slate-900 dark:text-white truncate">{c.user_name || 'Unknown'}</span>
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] font-medium text-slate-500 shrink-0">
-                            {new Date(c.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                            {utcToLocal(c.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                           </span>
                           {canEditDelete && !isEditing && (
                             <div className="hidden group-hover:flex items-center gap-1">
@@ -330,8 +331,8 @@ export default function TaskDetail() {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-0.5">Deadline</span>
-                    <span className={`text-sm font-medium ${task.is_overdue ? 'text-red-600 dark:text-red-400 font-bold' : 'text-slate-900 dark:text-white'}`}>
-                      {new Date(task.deadline).toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                    <span className={`text-[13px] font-semibold mt-0.5 ${task.is_overdue ? 'text-red-700 dark:text-red-400' : 'text-slate-900 dark:text-white'}`}>
+                      {utcToLocal(task.deadline).toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
                 </div>

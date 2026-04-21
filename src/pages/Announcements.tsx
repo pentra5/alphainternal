@@ -3,6 +3,7 @@ import client from '../api/client';
 import { useAuthStore } from '../stores/authStore';
 import { Megaphone, Plus, Trash2 } from 'lucide-react';
 import { confirm } from '@tauri-apps/plugin-dialog';
+import { utcToLocal } from '../utils/date';
 
 export default function Announcements() {
   const { user } = useAuthStore();
@@ -105,7 +106,7 @@ export default function Announcements() {
                   <div className="flex flex-col">
                     <span className="font-bold text-slate-900 dark:text-white text-sm">{a.author_name}</span>
                     <span className="text-xs font-medium text-slate-500">
-                      {new Date(a.created_at).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                      {utcToLocal(a.created_at).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
                     </span>
                   </div>
                 </div>

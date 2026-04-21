@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import client from '../api/client';
+import { utcToLocal } from '../utils/date';
 import { useAuthStore } from '../stores/authStore';
 import { Users, Edit3, Calendar, Trash2 } from 'lucide-react';
 import { confirm } from '@tauri-apps/plugin-dialog';
@@ -128,7 +129,7 @@ export default function Standups() {
                   <div className="flex flex-col">
                     <span className="font-bold text-slate-900 dark:text-white">{s.user_name}</span>
                     <span className="text-xs font-semibold text-primary-600 dark:text-primary-400">
-                      {new Date(s.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                      {utcToLocal(s.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
                 </div>

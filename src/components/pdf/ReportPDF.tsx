@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { utcToLocal } from '../../utils/date';
 
 const styles = StyleSheet.create({
   page: { padding: 40, fontFamily: 'Helvetica', fontSize: 12, color: '#333' },
@@ -30,7 +31,7 @@ export default function ReportPDF({ report }: { report: any }) {
           <Text style={styles.title}>{report.title || 'Laporan Kerja'}</Text>
           <Text style={styles.meta}>Oleh: {report.user_name || '-'}</Text>
           <Text style={styles.meta}>
-            Tanggal: {report.report_date ? new Date(report.report_date).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '-'}
+            Tanggal: {report.report_date ? utcToLocal(report.report_date).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '-'}
           </Text>
           <Text style={styles.meta}>Tipe: {report.report_type === 'daily' ? 'Harian' : 'Mingguan'}</Text>
           <Text style={styles.meta}>Mood: {moodText}</Text>

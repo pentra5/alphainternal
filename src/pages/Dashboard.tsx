@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from '../stores/authStore';
 import { useNavigate } from 'react-router-dom';
 import { getDailyMotivation } from '../lib/motivations';
+import { utcToLocal } from '../utils/date';
 import {
   FileText, Users, AlertTriangle, Plus, TrendingUp,
   Clock, ChevronRight, Zap, Target, Sparkles, Calendar, Star
@@ -284,7 +285,7 @@ export default function Dashboard() {
                       </div>
                       <span className="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-1">{r.title}</span>
                       <span className="text-xs text-slate-500 font-medium">
-                        {new Date(r.report_date).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                        {utcToLocal(r.report_date).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
                       </span>
                     </div>
                   </div>

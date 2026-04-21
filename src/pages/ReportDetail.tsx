@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Edit, Download, FileText, Paperclip, Calendar } from 'lucide-react';
 import client from '../api/client';
 import { useAuthStore } from '../stores/authStore';
+import { utcToLocal } from '../utils/date';
 
 const MOODS = ['😔 Berat', '😐 Biasa', '🙂 Oke', '😊 Baik', '🔥 Produktif!'];
 
@@ -35,7 +36,7 @@ export default function ReportDetail() {
       const { pdf } = await import('@react-pdf/renderer');
       const { default: ReportPDF } = await import('../components/pdf/ReportPDF');
       const blob = await pdf(<ReportPDF report={report} />).toBlob();
-      const fileName = `Laporan_${report?.user_name?.replace(/\\s+/g, '_')}_${report?.report_date}.pdf`;
+      const fileName = `Laporan_${report?.user_name?.replace(/\s+/g, '_')}_${report?.report_date}.pdf`;
 
       try {
         const { save } = await import('@tauri-apps/plugin-dialog');
@@ -124,7 +125,7 @@ export default function ReportDetail() {
               <span className="hidden sm:inline text-slate-300 dark:text-slate-600">•</span>
               <span className="flex items-center gap-1.5">
                 <Calendar size={14} className="text-slate-400" />
-                {new Date(report.report_date).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                {utcToLocal(report.report_date).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
               <span className="hidden sm:inline text-slate-300 dark:text-slate-600">•</span>
               <span className={report.report_type === 'daily' ? 'badge-primary' : 'badge-secondary'}>

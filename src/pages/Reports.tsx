@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, FileText, Search, Filter, Calendar } from 'lucide-react';
 import client from '../api/client';
+import { utcToLocal } from '../utils/date';
 
 const MOODS = ['😔', '😐', '🙂', '😊', '🔥'];
 
@@ -146,7 +147,7 @@ export default function Reports() {
                 </span>
                 <span className="flex items-center gap-1">
                   <Calendar size={12} />
-                  {new Date(r.report_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                  {utcToLocal(r.report_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
                 </span>
                 <span className={r.report_type === 'daily' ? 'badge-primary text-[10px]' : 'badge-secondary text-[10px]'}>
                   {r.report_type === 'daily' ? 'Harian' : 'Mingguan'}
