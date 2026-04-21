@@ -48,7 +48,7 @@ export default function TaskDetail() {
   // Load task on mount + poll every 5s for real-time comments
   useEffect(() => {
     loadTask();
-    const interval = setInterval(loadTask, 5000);
+    const interval = setInterval(loadTask, 2000);
     return () => clearInterval(interval);
   }, [id]);
 
